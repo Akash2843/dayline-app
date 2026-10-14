@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.akash.dayline'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.akash.dayline'
+        minSdk 26
+        targetSdk 34
+        // Each GitHub build gets a higher number, so new APKs install over old ones.
+        versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1')
+        versionName "1.0." + (System.getenv('GITHUB_RUN_NUMBER') ?: '1')
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('dayline.jks')
+            storeType 'jks'
+            storePassword 'dayline-pass'
+            keyAlias 'dayline'
+            keyPassword 'dayline-pass'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
