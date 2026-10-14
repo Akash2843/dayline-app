@@ -12,7 +12,7 @@ android {
         targetSdk 34
         // Each GitHub build gets a higher number, so new APKs install over old ones.
         versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1')
-        versionName "1.0." + (System.getenv('GITHUB_RUN_NUMBER') ?: '1')
+        versionName "2.0." + (System.getenv("GITHUB_RUN_NUMBER") ?: "1")
     }
 
     signingConfigs {

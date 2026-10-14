@@ -1,6 +1,5 @@
 package com.akash.dayline;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.webkit.WebView;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -28,12 +28,16 @@ public class Bridge {
     private static final String DEFAULT_MODEL = "claude-haiku-5-5";
     private static final String API_URL = "https://api.anthropic.com/v1/messages";
 
-    private final Activity activity;
+    private final MainActivity activity;
     private final WebView web;
 
-    Bridge(Activity activity, WebView web) {
+    Bridge(MainActivity activity, WebView web) {
         this.activity = activity;
         this.web = web;
+    }
+
+    private Context app() {
+        return activity.getApplicationContext();
     }
 
     /* ---------- reminders ---------- */
@@ -41,12 +45,23 @@ public class Bridge {
     /** The page sends its full task list after every change. */
     @JavascriptInterface
     public void syncTasks(String json) {
-        ReminderScheduler.saveAndSchedule(activity.getApplicationContext(), json);
+        ReminderScheduler.saveAndSchedule(app(), json);
     }
 
     @JavascriptInterface
     public void testReminder() {
-        ReminderScheduler.scheduleTest(activity.getApplicationContext());
+        ReminderScheduler.scheduleTest(app());
+    }
+
+    @JavascriptInterface
+    public void setSummary(boolean on, String time) {
+        ReminderScheduler.setSummary(app(), on, time);
+    }
+
+    /** Done taps from notifications made while the app was closed. */
+    @JavascriptInterface
+    public String takePendingActions() {
+        return ReminderScheduler.takePending(app());
     }
 
     @JavascriptInterface
@@ -75,10 +90,48 @@ public class Bridge {
         });
     }
 
+    /* ---------- look and feel ---------- */
+
+    @JavascriptInterface
+    public boolean isSystemDark() {
+        return activity.isSystemDark();
+    }
+
+    @JavascriptInterface
+    public void setBars(boolean dark) {
+        activity.runOnUiThread(() -> activity.applyBars(dark));
+    }
+
+    @JavascriptInterface
+    public void keepScreenOn(boolean on) {
+        activity.runOnUiThread(() -> activity.keepScreenOn(on));
+    }
+
+    @JavascriptInterface
+    public String getVersion() {
+        try {
+            return activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    /* ---------- backup ---------- */
+
+    @JavascriptInterface
+    public void exportBackup(String json, String fileName) {
+        activity.runOnUiThread(() -> activity.startExport(json, fileName));
+    }
+
+    @JavascriptInterface
+    public void importBackup() {
+        activity.runOnUiThread(activity::startImport);
+    }
+
     /* ---------- Claude ---------- */
 
     private SharedPreferences aiPrefs() {
-        return activity.getApplicationContext().getSharedPreferences(AI_PREFS, Context.MODE_PRIVATE);
+        return app().getSharedPreferences(AI_PREFS, Context.MODE_PRIVATE);
     }
 
     @JavascriptInterface
@@ -136,7 +189,7 @@ public class Bridge {
                 }
                 status = c.getResponseCode();
                 InputStream is = status >= 400 ? c.getErrorStream() : c.getInputStream();
-                resp = is == null ? "" : readAll(is);
+                resp = is == null ? "" : readAll(is, 4 * 1024 * 1024);
             } catch (Exception e) {
                 status = 0;
                 resp = "";
@@ -149,11 +202,16 @@ public class Bridge {
         }).start();
     }
 
-    private static String readAll(InputStream is) throws java.io.IOException {
+    static String readAll(InputStream is, int maxBytes) throws IOException {
         try (InputStream in = is; ByteArrayOutputStream buf = new ByteArrayOutputStream()) {
             byte[] b = new byte[8192];
             int n;
-            while ((n = in.read(b)) != -1) buf.write(b, 0, n);
+            int total = 0;
+            while ((n = in.read(b)) != -1) {
+                total += n;
+                if (total > maxBytes) throw new IOException("File too large");
+                buf.write(b, 0, n);
+            }
             return buf.toString("UTF-8");
         }
     }
