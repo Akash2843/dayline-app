@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Back up tasks, but never the Claude API key. -->
+<full-backup-content>
+    <exclude domain="sharedpref" path="dayline_ai.xml" />
+</full-backup-content>

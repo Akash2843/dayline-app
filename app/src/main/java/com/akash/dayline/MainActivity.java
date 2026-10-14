@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
-        web.addJavascriptInterface(new Bridge(this), "AndroidApp");
+        web.addJavascriptInterface(new Bridge(this, web), "AndroidApp");
         web.loadUrl("file:///android_asset/index.html");
         setContentView(web);
 

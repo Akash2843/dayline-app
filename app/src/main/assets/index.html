@@ -24,7 +24,7 @@
   --bg:#0E131D; --panel:#151B27; --raise:#1D2534; --hair:#283143;
   --ink:#ECEEF3; --ink-2:#A6AEBE; --ink-3:#717A8C;
   --accent:#F4A53C; --accent-fill:#F4A53C; --on-accent:#1B1205; --on-color:#16110A;
-  --danger:#F07467; --scrim:rgba(4,7,12,.62);
+  --danger:#F07467; --ok:#5FD39A; --scrim:rgba(4,7,12,.62);
   --shadow:0 12px 32px rgba(0,0,0,.45); --lift:0 1px 3px rgba(0,0,0,.35);
   --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -244,6 +244,62 @@ textarea.inp{resize:vertical;min-height:3.2rem}
 
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(9.6rem + env(safe-area-inset-bottom,0px));z-index:30;background:var(--ink);color:var(--bg);padding:.6rem 1rem;border-radius:12px;font-size:.88rem;font-weight:700;max-width:calc(100% - 32px);box-shadow:var(--shadow);text-align:center}
 
+.ai-wrap{padding-top:1.3rem}
+.ai-kicker{color:var(--accent);font-weight:700;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;margin:0;display:flex;align-items:center;gap:.4rem}
+.ai-kicker svg{width:1rem;height:1rem}
+.ai-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem}
+.ai-head h2{font-family:var(--f-display);font-size:1.65rem;line-height:1.15;margin:.35rem 0 0;letter-spacing:-.02em;text-wrap:balance}
+.ai-conn{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.8rem;font-size:.82rem;color:var(--ink-2)}
+.ai-conn .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--ok)}
+.ai-conn select{font:inherit;font-size:.82rem;font-weight:600;background:var(--raise);color:var(--ink);border:1px solid var(--hair);border-radius:8px;padding:.2rem .4rem}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font-weight:700;font-size:inherit;text-decoration:underline;text-underline-offset:2px}
+.ai-setup{background:var(--panel);border:1px solid var(--hair);border-radius:18px;padding:1rem;margin-top:1.1rem;display:grid;gap:.65rem}
+.ai-setup strong{font-family:var(--f-display);font-size:1.08rem}
+.ai-setup p{margin:0;color:var(--ink-2);font-size:.9rem}
+.ai-setup ol{margin:0;padding-left:1.2rem;color:var(--ink-2);font-size:.9rem;display:grid;gap:.25rem}
+.ai-setup a{color:var(--accent);font-weight:700}
+.ai-setup .fine{font-size:.8rem;color:var(--ink-3)}
+.key-row{display:flex;gap:.5rem}
+.key-row .inp{flex:1}
+.chips-row{display:flex;gap:.5rem;overflow-x:auto;padding:.1rem 0 .4rem;margin-top:1.2rem;scrollbar-width:none}
+.sugg{flex:none;width:13.5rem;text-align:left;background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:.65rem .8rem;display:grid;gap:.2rem}
+.sugg b{font-size:.9rem}
+.sugg span{font-size:.8rem;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-thread{list-style:none;margin:1.2rem 0 0;padding:0;display:flex;flex-direction:column;gap:.85rem}
+.msg-user{align-self:flex-end;max-width:85%;background:var(--raise);border-radius:18px 18px 4px 18px;padding:.6rem .85rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg-ai{display:grid;gap:.55rem;min-width:0}
+.say{display:flex;gap:.6rem;align-items:flex-start;min-width:0}
+.spark{width:1.85rem;height:1.85rem;border-radius:50%;background:var(--accent-fill);color:var(--on-accent);display:grid;place-items:center;flex:none}
+.spark svg{width:1rem;height:1rem}
+.say p{margin:.25rem 0 0;white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}
+.say p.err{color:var(--danger)}
+.proposal{background:var(--panel);border:1px solid var(--hair);border-radius:16px;padding:.75rem;display:grid;gap:.6rem;margin-left:2.45rem;min-width:0}
+.prop-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.6rem;align-items:center}
+.prop-row .ib-icon{width:1.9rem;height:1.9rem}
+.prop-row .ib-icon svg{width:.95rem;height:.95rem}
+.prop-title{font-weight:600;overflow-wrap:anywhere;display:block}
+.prop-when{font-size:.8rem;color:var(--ink-3);display:block;font-variant-numeric:tabular-nums}
+.op{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:.12rem .45rem;border-radius:999px;border:1px solid currentColor;color:var(--ink-2)}
+.op-add{color:var(--accent)} .op-delete{color:var(--danger)} .op-done{color:var(--ok)}
+.prop-actions{display:flex;gap:.5rem;flex-wrap:wrap;padding-top:.15rem}
+.primary.sm{padding:.5rem .9rem;border-radius:11px;font-size:.88rem}
+.prop-done{display:flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--ink-2);flex-wrap:wrap}
+.prop-done svg{width:.95rem;height:.95rem;color:var(--ok)}
+.typing{display:inline-flex;gap:.3rem;padding:.55rem 0}
+.typing i{width:.45rem;height:.45rem;border-radius:50%;background:var(--ink-3);animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s} .typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.ai-compose{position:fixed;left:0;right:0;z-index:6;bottom:calc(4.4rem + env(safe-area-inset-bottom,0px));padding-top:.6rem;padding-bottom:.5rem;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:linear-gradient(to bottom,transparent,var(--bg) 35%)}
+.ai-compose-inner{max-width:34rem;margin:0 auto;display:flex;gap:.5rem;align-items:flex-end;background:var(--panel);border:1px solid var(--hair);border-radius:22px;padding:.3rem .3rem .3rem .95rem}
+.ai-compose-inner:focus-within{border-color:var(--accent-fill)}
+#ai-input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:1rem;resize:none;max-height:8rem;padding:.6rem 0;line-height:1.35}
+#ai-input:focus{outline:none}
+#ai-input::placeholder{color:var(--ink-3)}
+.send{width:2.6rem;height:2.6rem;border-radius:50%;border:0;background:var(--accent-fill);color:var(--on-accent);display:grid;place-items:center;flex:none;padding:0}
+.send:disabled{opacity:.45}
+.send svg{width:1.15rem;height:1.15rem}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 @media (min-width:640px){ .month{font-size:2.2rem} }
@@ -298,6 +354,47 @@ textarea.inp{resize:vertical;min-height:3.2rem}
       <ul class="ib-list" id="ibDone"></ul>
     </div>
   </main>
+
+  <main id="viewAI" class="ai-wrap" hidden>
+    <div class="ai-head">
+      <div>
+        <p class="ai-kicker"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.1 6.2 6.4 2.3-6.4 2.3L12 19.5l-2.1-6.2L3.5 11l6.4-2.3z"/><path d="M19 15.5l.8 2.1 2.2.8-2.2.8-.8 2.3-.8-2.3-2.2-.8 2.2-.8z"/></svg>Plan with Claude</p>
+        <h2>Tell me about your day. I'll put it on the timeline.</h2>
+      </div>
+      <button type="button" class="ghost sm" id="aiNew" hidden>New chat</button>
+    </div>
+    <div class="ai-conn" id="aiConn" hidden>
+      <span class="dot" aria-hidden="true"></span><span>Connected</span>
+      <label class="sr" for="aiModel">Claude model</label>
+      <select id="aiModel"></select>
+      <button type="button" class="linkbtn" id="aiDisconnect">Disconnect</button>
+    </div>
+
+    <section class="ai-setup" id="aiSetup" hidden>
+      <strong>Connect Claude</strong>
+      <p>Dayline uses your own Claude API key. It's separate from a Claude.ai subscription and is billed per use.</p>
+      <ol>
+        <li>Open <a href="https://console.anthropic.com/settings/keys">console.anthropic.com</a> and sign in</li>
+        <li>Add a little credit under Billing</li>
+        <li>Create an API key, copy it and paste it here</li>
+      </ol>
+      <label class="sr" for="ai-key">Claude API key</label>
+      <div class="key-row"><input class="inp" type="password" id="ai-key" placeholder="sk-ant-…" autocomplete="off" spellcheck="false"><button type="button" class="primary" id="aiKeySave">Connect</button></div>
+      <p class="form-err" id="aiKeyErr" hidden></p>
+      <p class="fine">The key stays on this phone. When you ask something, Claude sees your message and your tasks for the next few weeks.</p>
+    </section>
+
+    <div class="chips-row" id="aiSuggest" hidden></div>
+    <ol class="ai-thread" id="aiThread"></ol>
+
+    <form class="ai-compose" id="aiForm" novalidate hidden>
+      <div class="ai-compose-inner">
+        <label class="sr" for="ai-input">Message Claude</label>
+        <textarea id="ai-input" rows="1" placeholder="Tell me your plans…" maxlength="2000"></textarea>
+        <button type="submit" class="send" id="aiSend" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </div>
+    </form>
+  </main>
 </div>
 
 <nav class="tabs" aria-label="Sections">
@@ -309,6 +406,10 @@ textarea.inp{resize:vertical;min-height:3.2rem}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
     Inbox
     <span class="badge" id="inboxBadge" hidden></span>
+  </button>
+  <button type="button" class="tab" data-tab="ai">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5l2.1 6.2 6.4 2.3-6.4 2.3L12 19.5l-2.1-6.2L3.5 11l6.4-2.3z"/><path d="M19 15.5l.8 2.1 2.2.8-2.2.8-.8 2.3-.8-2.3-2.2-.8 2.2-.8z"/></svg>
+    AI
   </button>
 </nav>
 <button type="button" class="fab" id="fab" aria-label="Add task"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -719,7 +820,7 @@ function renderInbox(){
   $('#ibDone').innerHTML = done.map(ibRow).join('');
 }
 
-function renderAll(){ renderWeek(); renderTimeline(); renderInbox(); }
+function renderAll(){ renderWeek(); renderTimeline(); renderInbox(); if (state.tab === 'ai') renderAI(); }
 
 /* ---------- actions ---------- */
 async function toggle(id){
@@ -735,9 +836,12 @@ function setTab(tab){
   state.tab = tab;
   $('#viewTimeline').hidden = tab !== 'timeline';
   $('#viewInbox').hidden = tab !== 'inbox';
+  $('#viewAI').hidden = tab !== 'ai';
+  $('#fab').hidden = tab === 'ai';
+  if (tab === 'ai') renderAI();
   document.querySelectorAll('.tab').forEach(b => { if (b.dataset.tab === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   $('#fab').setAttribute('aria-label', tab === 'inbox' ? 'Add to inbox' : 'Add task');
-  window.scrollTo(0, 0);
+  if (tab === 'ai') aiScrollEnd(); else window.scrollTo(0, 0);
 }
 function shiftDays(n){ const d = parseYmd(state.sel); d.setDate(d.getDate() + n); state.sel = ymd(d); renderAll(); }
 
@@ -873,6 +977,308 @@ $('#taskForm').addEventListener('submit', async e => {
   renderAll();
 });
 
+
+/* ---------- AI: plan with Claude ---------- */
+const AI_LS = 'dayline.ai.thread.v1';
+const MODELS = [['claude-haiku-5-5','Haiku 5.5 · fast'], ['claude-sonnet-5-5','Sonnet 5.5 · smarter']];
+const SPARK = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.1 6.2 6.4 2.3-6.4 2.3L12 19.5l-2.1-6.2L3.5 11l6.4-2.3z"/><path d="M19 15.5l.8 2.1 2.2.8-2.2.8-.8 2.3-.8-2.3-2.2-.8 2.2-.8z"/></svg>`;
+const SUGGESTIONS = [
+  ['Plan my morning', "I wake up at 8. Then freshen up, breakfast, and leave for office by 9:15."],
+  ['Fit in study time', 'Find 1 hour today to study and remind me 10 min before.'],
+  ['Plan tomorrow', 'Tomorrow: office 10 to 7, gym at 7:30 PM, dinner at 9.'],
+  ['Move unfinished tasks', "Move today's unfinished tasks to tomorrow at the same times."],
+  ["What's left today?", "What's left on my plan today?"]
+];
+const OPS = {add:'New', update:'Change', delete:'Remove', done:'Done'};
+const ai = { thread:[], busy:false, pending:new Map() };
+try { const t = JSON.parse(localStorage.getItem(AI_LS) || '[]'); if (Array.isArray(t)) ai.thread = t.slice(-40).map(m => m.status === 'applying' ? Object.assign(m, {status:'pending'}) : m); } catch(_) {}
+function aiSave(){ try { localStorage.setItem(AI_LS, JSON.stringify(ai.thread.slice(-40))); } catch(_) {} }
+function aiHasKey(){ try { return !!(window.AndroidApp && window.AndroidApp.hasApiKey()); } catch(_) { return false; } }
+function aiModel(){ try { const m = window.AndroidApp && window.AndroidApp.getModel(); return MODELS.some(x => x[0] === m) ? m : MODELS[0][0]; } catch(_) { return MODELS[0][0]; } }
+const addDays = (ds, n) => { const d = parseYmd(ds); d.setDate(d.getDate() + n); return ymd(d); };
+function aiScrollEnd(){ requestAnimationFrame(() => window.scrollTo(0, document.body.scrollHeight)); }
+function autoGrow(){ const t = $('#ai-input'); t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 128) + 'px'; }
+
+$('#aiModel').innerHTML = MODELS.map(([v,l]) => `<option value="${v}">${l}</option>`).join('');
+$('#aiModel').addEventListener('change', e => { try { window.AndroidApp.setModel(e.target.value); } catch(_) {} });
+$('#aiSuggest').innerHTML = SUGGESTIONS.map(([t,x], i) => `<button type="button" class="sugg" data-sugg="${i}"><b>${esc(t)}</b><span>${esc(x)}</span></button>`).join('');
+$('#ai-input').addEventListener('input', autoGrow);
+$('#ai-input').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)){ e.preventDefault(); $('#aiForm').requestSubmit(); } });
+$('#aiForm').addEventListener('submit', e => { e.preventDefault(); const t = $('#ai-input'); const v = t.value; if (!v.trim() || ai.busy) return; t.value = ''; autoGrow(); aiSend(v); });
+$('#ai-key').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); aiConnect(); } });
+
+function aiConnect(){
+  const k = $('#ai-key').value.trim(), err = $('#aiKeyErr');
+  if (!/^sk-ant-[A-Za-z0-9_\-]{20,}$/.test(k)){ err.textContent = 'That doesn’t look like a Claude API key. It should start with sk-ant-.'; err.hidden = false; return; }
+  err.hidden = true;
+  try { window.AndroidApp.saveApiKey(k); } catch(_) { err.textContent = 'Claude works in the installed Dayline app only.'; err.hidden = false; return; }
+  $('#ai-key').value = '';
+  toast('Connected to Claude');
+  renderAI();
+  setTimeout(() => { try { $('#ai-input').focus(); } catch(_) {} }, 100);
+}
+
+function describe(a){
+  const cur = a.id ? state.tasks.get(a.id) : null;
+  const t = a.op === 'add' ? a : Object.assign({}, cur || {}, a.op === 'update' ? a : {});
+  const title = t.title || 'Task';
+  let when;
+  if (a.op === 'done') when = 'Mark as done' + (cur && isRepeating(cur) ? ' · ' + dayName(a.date || ymd(new Date())) : '');
+  else if (a.op === 'delete') when = cur && isRepeating(cur) ? (a.date ? 'Only ' + dayName(a.date) : 'Every day it repeats') : (cur && cur.date ? dayName(cur.date) : 'Inbox');
+  else if (t.date && t.start){
+    const s = toMin(t.start), d = Math.max(5, Number(t.duration) || 30);
+    const rep = {daily:' · Daily', weekdays:' · Mon–Fri', weekly:' · Weekly'}[t.repeat] || '';
+    when = `${dayName(t.date)} · ${fmtTime(s)} – ${fmtTime(s + d)}${rep}`;
+  } else when = 'Inbox, no time';
+  return {title, when, icon: t.icon || 'check', color: t.color || 'marigold'};
+}
+function propRow(a){
+  const d = describe(a);
+  return `<div class="prop-row" style="--c:${COLORS[d.color] || COLORS.slate}"><span class="ib-icon">${icon(d.icon)}</span><span><span class="prop-title">${esc(d.title)}</span><span class="prop-when">${esc(d.when)}</span></span><span class="op op-${a.op}">${OPS[a.op]}</span></div>`;
+}
+function aiItem(m, i){
+  if (m.role === 'user') return `<li class="msg-user">${esc(m.text)}</li>`;
+  let h = `<li class="msg-ai"><div class="say"><span class="spark">${SPARK}</span><p class="${m.error ? 'err' : ''}">${esc(m.text)}</p></div>`;
+  if (m.error && i === ai.thread.length - 1) h += `<div class="prop-actions" style="margin-left:2.45rem"><button type="button" class="ghost sm" data-ai-retry="1">Try again</button></div>`;
+  if (m.actions && m.actions.length){
+    h += `<div class="proposal">${m.actions.map(propRow).join('')}`;
+    if (m.status === 'pending'){
+      const n = m.actions.length, adds = m.actions.every(a => a.op === 'add');
+      h += `<div class="prop-actions"><button type="button" class="primary sm" data-ai-apply="${i}">${adds ? (n === 1 ? 'Add to planner' : `Add all ${n}`) : (n === 1 ? 'Apply change' : `Apply ${n} changes`)}</button><button type="button" class="ghost sm" data-ai-skip="${i}">Skip</button></div>`;
+    } else if (m.status === 'applied'){
+      h += `<div class="prop-done">${SM.tick}<span>Added to your planner.</span><button type="button" class="linkbtn" data-ai-view="${i}">View timeline</button></div>`;
+    } else if (m.status === 'skipped'){
+      h += `<div class="prop-done"><span>Skipped. Nothing changed.</span></div>`;
+    }
+    h += `</div>`;
+  }
+  return h + '</li>';
+}
+function renderAI(){
+  const keyed = aiHasKey();
+  $('#aiSetup').hidden = keyed;
+  $('#aiConn').hidden = !keyed;
+  $('#aiForm').hidden = !keyed;
+  $('#aiSuggest').hidden = !keyed || ai.thread.length > 0;
+  $('#aiNew').hidden = !ai.thread.length;
+  $('#aiModel').value = aiModel();
+  let html = ai.thread.map(aiItem).join('');
+  if (ai.busy) html += `<li class="msg-ai"><div class="say"><span class="spark">${SPARK}</span><p><span class="typing" aria-label="Claude is thinking"><i></i><i></i><i></i></span></p></div></li>`;
+  $('#aiThread').innerHTML = html;
+  $('#aiSend').disabled = ai.busy;
+}
+
+const AI_TOOL = {
+  name: 'apply_plan',
+  description: "Reply to the user and propose changes to their Dayline planner. Always call this exactly once.",
+  input_schema: {
+    type: 'object',
+    properties: {
+      reply: {type:'string', description:'Short, friendly reply shown to the user (1-3 plain sentences). Mention any assumption, like a time you picked.'},
+      actions: {type:'array', description:'Planner changes. Empty if the user only asked a question.', items: {
+        type: 'object',
+        properties: {
+          op: {type:'string', enum:['add','update','delete','done']},
+          id: {type:'string', description:'Id of an existing task. Required for update, delete and done.'},
+          title: {type:'string'},
+          date: {type:['string','null'], description:'YYYY-MM-DD. null or omitted with no start = inbox to-do.'},
+          start: {type:'string', description:'Start time, 24-hour HH:MM'},
+          duration: {type:'integer', description:'Length in minutes'},
+          repeat: {type:'string', enum:['none','daily','weekdays','weekly']},
+          remind: {type:'integer', enum:[-1,0,5,10,30], description:'Minutes before start to notify; -1 = no reminder'},
+          icon: {type:'string', enum:Object.keys(ICONS)},
+          color: {type:'string', enum:Object.keys(COLORS)},
+          notes: {type:'string'}
+        },
+        required: ['op']
+      }}
+    },
+    required: ['reply','actions']
+  }
+};
+
+function aiContext(){
+  const today = ymd(new Date()), lo = addDays(today, -1), hi = addDays(today, 21);
+  return [...state.tasks.values()]
+    .filter(t => isScheduled(t) ? (isRepeating(t) || (t.date >= lo && t.date <= hi)) : !t.done)
+    .slice(0, 150)
+    .map(t => {
+      const o = {id:t.id, title:t.title};
+      if (isScheduled(t)){
+        o.date = t.date; o.start = t.start; o.duration = durOf(t);
+        if (isRepeating(t)){
+          o.repeat = t.repeat;
+          const dn = Object.keys(t.doneOn || {}).filter(k => t.doneOn[k] && k >= lo); if (dn.length) o.doneOn = dn;
+          const sk = Object.keys(t.skipOn || {}).filter(k => t.skipOn[k] && k >= lo); if (sk.length) o.skippedOn = sk;
+        } else o.done = !!t.done;
+        if ((t.remind ?? -1) >= 0) o.remind = t.remind;
+      } else o.inbox = true;
+      return o;
+    });
+}
+
+function aiRequest(){
+  const now = new Date(), today = ymd(now);
+  const system = `You are the planning assistant inside Dayline, the user's personal day-planner app on their phone.
+Now: ${WDL[now.getDay()]} ${today}, ${pad(now.getHours())}:${pad(now.getMinutes())} local time. The user is viewing ${WDL[parseYmd(state.sel).getDay()]} ${state.sel}.
+
+Always answer by calling the apply_plan tool exactly once: a short friendly reply in "reply", and planner changes in "actions".
+
+How to plan:
+- Dates are YYYY-MM-DD and times are 24-hour HH:MM. Work out "today", "tomorrow" and weekday names from the date above.
+- If the user names no day, use the day they are viewing.
+- If they give no time, place the task in the first free gap that fits between 07:00 and 22:30, without overlapping existing tasks and not in the past for today. If they give no length, choose a sensible one (15-60 minutes).
+- Use repeat only when they say every day, weekdays, or every <weekday>.
+- New timed tasks get remind 0 unless they ask for another reminder (5, 10 or 30 minutes before) or none (-1).
+- To-dos with no day and no time go to the inbox: add them without date and start.
+- To change, finish or remove an existing task, use its id from the list below. For a repeating task, "done" and "delete" with a date affect only that date; "delete" without a date removes the whole series.
+- Pick the closest icon and a fitting colour.
+- If the user only asks a question, answer it in "reply" with no actions.
+- Don't list the changes again in "reply"; the app shows them as cards.
+
+Current tasks (JSON):
+${JSON.stringify(aiContext())}`;
+  const raw = [];
+  ai.thread.slice(-16).forEach(m => {
+    if (m.role === 'user') raw.push({role:'user', content:m.text});
+    else if (!m.error){
+      const sum = (m.actions || []).map(a => { const d = describe(a); return `${a.op} "${d.title}" (${d.when})`; }).join('; ');
+      const st = {applied:'the user applied these', skipped:'the user skipped these', pending:'not applied yet'}[m.status] || '';
+      raw.push({role:'assistant', content: (m.text || 'OK.') + (sum ? `\n[Proposed: ${sum} - ${st}]` : '')});
+    }
+  });
+  const messages = [];
+  raw.forEach(m => {
+    const last = messages[messages.length - 1];
+    if (last && last.role === m.role) last.content += '\n\n' + m.content; else messages.push(Object.assign({}, m));
+  });
+  while (messages.length && messages[0].role !== 'user') messages.shift();
+  return {model: aiModel(), max_tokens: 2000, system, tools:[AI_TOOL], tool_choice:{type:'tool', name:'apply_plan'}, messages};
+}
+
+function callClaude(body){
+  return new Promise(resolve => {
+    const id = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    ai.pending.set(id, resolve);
+    try { window.AndroidApp.askClaude(JSON.stringify(body), id); }
+    catch(_) { ai.pending.delete(id); resolve({status:0, body:''}); return; }
+    setTimeout(() => { if (ai.pending.has(id)){ ai.pending.delete(id); resolve({status:-1, body:''}); } }, 120000);
+  });
+}
+window.__claudeDone = (id, status, body) => { const r = ai.pending.get(id); if (r){ ai.pending.delete(id); r({status, body}); } };
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/, TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+function cleanAction(a){
+  if (!a || typeof a !== 'object' || !OPS[a.op]) return null;
+  const out = {op:a.op};
+  if (a.op !== 'add'){ if (a.id == null || !state.tasks.has(String(a.id))) return null; out.id = String(a.id); }
+  if (typeof a.title === 'string' && a.title.trim()) out.title = a.title.trim().slice(0, 80);
+  if (a.date === null) out.date = null; else if (typeof a.date === 'string' && DATE_RE.test(a.date)) out.date = a.date;
+  if (typeof a.start === 'string'){ const s = a.start.trim().slice(0, 5).padStart(5, '0'); if (TIME_RE.test(s)) out.start = s; }
+  if (a.duration != null && Number.isFinite(+a.duration) && +a.duration > 0) out.duration = Math.min(720, Math.max(5, Math.round(+a.duration)));
+  if (['none','daily','weekdays','weekly'].includes(a.repeat)) out.repeat = a.repeat;
+  if (a.remind != null && [-1,0,5,10,30].includes(+a.remind)) out.remind = +a.remind;
+  if (ICONS[a.icon]) out.icon = a.icon;
+  if (COLORS[a.color]) out.color = a.color;
+  if (typeof a.notes === 'string') out.notes = a.notes.slice(0, 500);
+  if (a.op === 'add'){
+    if (!out.title) return null;
+    if (out.start && !out.date) out.date = state.sel;
+    if (out.date && !out.start) out.start = fromMin(suggestStart(out.date, out.duration || 30));
+    if (!out.icon){ const hit = KEYWORDS.find(([re]) => re.test(out.title)); out.icon = hit ? hit[1] : 'check'; }
+    if (!out.color) out.color = ICON_COLOR[out.icon] || 'marigold';
+  }
+  return out;
+}
+
+function aiParse(res){
+  if (res.status === 200){
+    let data;
+    try { data = JSON.parse(res.body); } catch(_) { return {role:'ai', text:"Claude's answer couldn't be read. Try again.", error:true}; }
+    const tu = (data.content || []).find(b => b.type === 'tool_use' && b.name === 'apply_plan');
+    if (!tu){
+      const txt = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
+      return {role:'ai', text: txt || 'No changes suggested.', actions:[], status:'none'};
+    }
+    const input = tu.input || {};
+    const actions = (Array.isArray(input.actions) ? input.actions : []).map(cleanAction).filter(Boolean).slice(0, 30);
+    const reply = String(input.reply || '').trim().slice(0, 1500);
+    return {role:'ai', text: reply || (actions.length ? "Here's the plan:" : 'Done.'), actions, status: actions.length ? 'pending' : 'none'};
+  }
+  let msg = '';
+  try { msg = ((JSON.parse(res.body) || {}).error || {}).message || ''; } catch(_) {}
+  const s = res.status;
+  const text = s === 0 ? "Couldn't reach Claude. Check your internet connection and try again."
+    : s === -1 ? 'Claude took too long to answer. Try again.'
+    : s === 401 ? 'Your API key was rejected. Tap Disconnect, then paste a valid key from console.anthropic.com.'
+    : s === 403 ? 'This API key isn’t allowed to use that model. Try switching the model, or check the key in console.anthropic.com.'
+    : s === 429 ? 'Too many requests right now. Wait a minute and try again.'
+    : (s === 400 && /credit/i.test(msg)) ? 'Your Anthropic account is out of credits. Add credit at console.anthropic.com under Billing.'
+    : (s === 529 || s === 503 || s === 500) ? 'Claude is busy right now. Try again in a moment.'
+    : `Claude returned an error (${s})${msg ? ': ' + msg : '.'}`;
+  return {role:'ai', text, error:true, actions:[], status:'none'};
+}
+
+async function aiSend(text){
+  text = String(text || '').trim();
+  if (!text || ai.busy) return;
+  if (!aiHasKey()){ renderAI(); return; }
+  ai.thread.push({role:'user', text});
+  ai.busy = true; aiSave(); renderAI(); aiScrollEnd();
+  const res = await callClaude(aiRequest());
+  ai.busy = false;
+  ai.thread.push(aiParse(res));
+  aiSave(); renderAI(); aiScrollEnd();
+}
+function aiRetry(){
+  if (ai.busy) return;
+  const last = ai.thread[ai.thread.length - 1];
+  if (!last || !last.error) return;
+  ai.thread.pop();
+  const u = ai.thread.pop();
+  if (u && u.role === 'user') aiSend(u.text); else renderAI();
+}
+
+async function aiApply(i){
+  const m = ai.thread[i];
+  if (!m || m.status !== 'pending') return;
+  m.status = 'applying';
+  const now = new Date().toISOString();
+  let goto = null, n = 0;
+  try {
+    for (const a of m.actions){
+      const cur = a.id ? state.tasks.get(a.id) : null;
+      if (a.op === 'add'){
+        const timed = !!(a.date && a.start);
+        const t = {title:a.title, icon:a.icon, color:a.color, duration:a.duration || 30, notes:a.notes || '',
+          date: timed ? a.date : null, start: timed ? a.start : null, repeat: timed ? (a.repeat || 'none') : 'none',
+          remind: timed ? (a.remind ?? 0) : -1, done:false, doneOn:{}, skipOn:{}, createdAt:now, updatedAt:now};
+        await store.add(t); goto = goto || t.date;
+      } else if (!cur){ continue; }
+      else if (a.op === 'update'){
+        const next = Object.assign({}, cur);
+        ['title','icon','color','duration','notes','date','start','repeat','remind'].forEach(k => { if (k in a) next[k] = a[k]; });
+        if (!next.date){ next.date = null; next.start = null; next.repeat = 'none'; next.remind = -1; }
+        else if (!next.start) next.start = fromMin(suggestStart(next.date, durOf(next)));
+        next.updatedAt = now; delete next.id;
+        await store.set(a.id, next); goto = goto || next.date;
+      } else if (a.op === 'delete'){
+        if (isRepeating(cur) && a.date) await store.update(a.id, {skipOn:{[a.date]: true}});
+        else await store.remove(a.id);
+      } else if (a.op === 'done'){
+        if (isRepeating(cur)) await store.update(a.id, {doneOn:{[a.date || ymd(new Date())]: true}});
+        else await store.update(a.id, {done:true});
+      }
+      n++;
+    }
+    m.status = 'applied'; m.goto = goto;
+    toast(n === 1 ? 'Planner updated' : `${n} changes made`);
+  } catch(e){
+    m.status = 'pending'; writeError(e);
+  }
+  aiSave(); renderAll(); renderAI();
+}
+
 /* ---------- global events ---------- */
 document.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || b.closest('#sheet')) return;
@@ -887,6 +1293,14 @@ document.addEventListener('click', e => {
     const room = Number(b.dataset.room) || 60;
     openSheet(null, {when:'day', start:b.dataset.add, duration: room >= 15 ? Math.min(60, Math.floor(room/15)*15) : 30});
   }
+  else if (b.dataset.aiApply != null){ aiApply(Number(b.dataset.aiApply)); }
+  else if (b.dataset.aiSkip != null){ const m = ai.thread[Number(b.dataset.aiSkip)]; if (m){ m.status = 'skipped'; aiSave(); renderAI(); } }
+  else if (b.dataset.aiView != null){ const m = ai.thread[Number(b.dataset.aiView)]; if (m && m.goto) state.sel = m.goto; setTab('timeline'); renderAll(); }
+  else if (b.dataset.aiRetry != null){ aiRetry(); }
+  else if (b.dataset.sugg != null){ const inp = $('#ai-input'); inp.value = SUGGESTIONS[Number(b.dataset.sugg)][1]; autoGrow(); inp.focus(); }
+  else if (b.id === 'aiKeySave'){ aiConnect(); }
+  else if (b.id === 'aiDisconnect'){ try { window.AndroidApp.clearApiKey(); } catch(_) {} toast('Disconnected from Claude'); renderAI(); }
+  else if (b.id === 'aiNew'){ ai.thread = []; aiSave(); renderAI(); }
   else if (b.dataset.tab){ setTab(b.dataset.tab); }
   else if (b.id === 'fab'){ openSheet(null, state.tab === 'inbox' ? {when:'inbox'} : {}); }
   else if (b.id === 'todayBtn'){ state.sel = ymd(new Date()); renderAll(); }
