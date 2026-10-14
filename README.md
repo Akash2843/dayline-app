@@ -28,3 +28,5 @@ Every push to `main` runs `.github/workflows/build.yml`, which builds a signed A
 - `Bridge.java` - what the screens can ask the phone to do (reminders, backup files, Claude requests, theme bars).
 
 Font: Figtree (SIL Open Font License), bundled from Fontsource.
+
+Crafted by Akash Pawar.

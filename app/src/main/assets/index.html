@@ -29,7 +29,7 @@
   --danger:#C2412F; --danger-ink:#FFFFFF; --ok:#2E8B57;
   --sel-bg:#16171B; --sel-ink:#FFFFFF;
   --scrim:rgba(15,16,20,.35); --shadow:0 10px 30px rgba(20,22,30,.14); --lift:0 1px 2px rgba(20,22,30,.10);
-  --tint:13%;
+  --tint:13%; --wm:.035;
   --f:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   color-scheme:light;
 }
@@ -41,7 +41,7 @@
     --danger:#F08A7A; --danger-ink:#0F1012; --ok:#6CC08F;
     --sel-bg:#ECEDEF; --sel-ink:#0F1012;
     --scrim:rgba(0,0,0,.55); --shadow:0 12px 32px rgba(0,0,0,.55); --lift:0 1px 2px rgba(0,0,0,.45);
-    --tint:22%;
+    --tint:22%; --wm:.05;
     color-scheme:dark;
   }
 }
@@ -52,7 +52,7 @@
   --danger:#F08A7A; --danger-ink:#0F1012; --ok:#6CC08F;
   --sel-bg:#ECEDEF; --sel-ink:#0F1012;
   --scrim:rgba(0,0,0,.55); --shadow:0 12px 32px rgba(0,0,0,.55); --lift:0 1px 2px rgba(0,0,0,.45);
-  --tint:22%;
+  --tint:22%; --wm:.05;
   color-scheme:dark;
 }
 
@@ -389,17 +389,42 @@ button.g-row:active{background:var(--raise)}
 .toast button{color:var(--toast-accent);font-weight:700;padding:.2rem .45rem;border-radius:6px}
 .toast:not(.has-undo){padding-right:1rem}
 
+/* ---------- branding ---------- */
+.brand{display:flex;align-items:center;gap:.6rem;min-width:0}
+.mark{display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;border-radius:8px;background:var(--ink);color:var(--bg);
+  font-size:12px;font-weight:700;letter-spacing:.03em;line-height:1;flex:none;user-select:none;-webkit-user-select:none}
+.mark.lg{width:3.6rem;height:3.6rem;border-radius:15px;font-size:20px}
+.splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(2.25rem + env(safe-area-inset-bottom,0px));transition:opacity .35s ease,visibility .35s}
+.splash.out{opacity:0;visibility:hidden}
+.sp-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem}
+.sp-name{margin:0;font-size:28px;font-weight:700;letter-spacing:-.015em;color:var(--ink)}
+.sp-center .mark,.sp-name{animation:rise .5s ease-out both}
+.sp-name{animation-delay:.08s}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.sp-credit{margin:0;font-size:13px;color:var(--ink-3);letter-spacing:.05em}
+.empty,.ib-empty{position:relative;overflow:hidden;isolation:isolate}
+.empty::before,.ib-empty::before{content:"AP";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
+  font-size:9.5rem;font-weight:700;letter-spacing:-.05em;line-height:1;color:var(--ink);opacity:var(--wm)}
+.brand-about{display:flex;flex-direction:column;align-items:center;gap:.35rem;margin:2.25rem 0 0;font-size:13px;color:var(--ink-3);text-align:center}
+.brand-about .mark{margin-bottom:.35rem}
+.brand-about b{color:var(--ink-2);font-weight:600}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div class="splash" id="splash" aria-hidden="true">
+  <div class="sp-center"><h1 class="sp-name">Dayline</h1></div>
+  <p class="sp-credit">Crafted by Akash Pawar</p>
+</div>
 <div class="app">
 
   <!-- ===== Timeline ===== -->
   <section id="viewTimeline">
     <header class="top" id="top">
       <div class="top-row">
-        <h2 class="month" id="monthLabel">October 2026</h2>
+        <div class="brand"><span class="mark" aria-hidden="true">AP</span><h2 class="month" id="monthLabel">October 2026</h2></div>
         <div class="top-actions">
           <button type="button" class="pill" id="todayBtn" hidden>Today</button>
           <button type="button" class="iconbtn" id="prevWk" aria-label="Previous week"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
@@ -520,7 +545,7 @@ button.g-row:active{background:var(--raise)}
     </div>
     <p class="g-note">A backup is one file you can keep in Drive or move to a new phone. Importing adds its tasks and updates ones you already have.</p>
 
-    <p class="about" id="about">Dayline</p>
+    <div class="brand-about"><b id="about">Dayline</b><span>Crafted by Akash Pawar</span></div>
   </section>
 </div>
 
@@ -1308,6 +1333,7 @@ $('#ai-key').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preven
 
 function aiConnect(){
   const k = $('#ai-key').value.trim(), err = $('#aiKeyErr');
+  if (!k){ err.textContent = 'Paste your API key first.'; err.hidden = false; $('#ai-key').focus(); return; }
   if (!/^sk-ant-[A-Za-z0-9_\-]{20,}$/.test(k)){ err.textContent = 'That doesn’t look like a Claude API key. It should start with sk-ant-.'; err.hidden = false; return; }
   if (!window.AndroidApp){ err.textContent = 'Claude works in the installed Dayline app only.'; err.hidden = false; return; }
   err.hidden = true;
@@ -1688,6 +1714,11 @@ store.load();
 pullPending();
 syncSummary();
 renderAll();
+(function hideSplash(){
+  const el = $('#splash'); if (!el) return;
+  const wait = Math.max(0, 1100 - performance.now());
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 450); }, wait);
+})();
 })();
 </script>
 </body>
