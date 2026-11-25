@@ -1,4 +1,4 @@
-package com.furthermore.dayline;
+package com.susumulabs.dayline;
 
 import android.app.Notification;
 import android.app.NotificationChannel;

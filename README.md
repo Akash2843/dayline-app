@@ -31,4 +31,4 @@ Signing: the Play upload key is stored encrypted as `app/upload.jks.enc`. The wo
 
 Font: Figtree (SIL Open Font License), bundled from Fontsource.
 
-Crafted by FurtherMore.
+Crafted by Susumu Labs.

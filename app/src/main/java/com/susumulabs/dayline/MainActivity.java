@@ -1,4 +1,4 @@
-package com.furthermore.dayline;
+package com.susumulabs.dayline;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

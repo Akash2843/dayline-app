@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.furthermore.dayline'
+    namespace 'com.susumulabs.dayline'
     compileSdk 36
 
     defaultConfig {
-        applicationId 'com.furthermore.dayline'
+        applicationId 'com.susumulabs.dayline'
         minSdk 26
         targetSdk 36
         // Each GitHub build gets a higher number, so new APKs install over old ones.
