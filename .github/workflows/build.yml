@@ -21,23 +21,35 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.9'
+          gradle-version: '8.13'
 
-      - name: Build signed APK
-        run: gradle :app:assembleRelease --no-daemon --stacktrace
+      - name: Build signed APK and Play Store bundle
+        run: gradle :app:assembleRelease :app:bundleRelease --no-daemon --stacktrace
 
-      - name: Name the APK
-        run: cp app/build/outputs/apk/release/app-release.apk Dayline.apk
+      - name: Name the files
+        run: |
+          cp app/build/outputs/apk/release/app-release.apk Dayline.apk
+          cp app/build/outputs/bundle/release/app-release.aab Dayline.aab
 
       - uses: actions/upload-artifact@v4
         with:
           name: Dayline-apk
           path: Dayline.apk
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Dayline-aab
+          path: Dayline.aab
+
       - name: Publish as a release
+        if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v2.0.${{ github.run_number }}
           name: Dayline 2.0.${{ github.run_number }}
-          body: Install Dayline.apk on your Android phone.
-          files: Dayline.apk
+          body: |
+            Install Dayline.apk on your Android phone.
+            Upload Dayline.aab to Google Play Console.
+          files: |
+            Dayline.apk
+            Dayline.aab

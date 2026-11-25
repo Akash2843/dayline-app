@@ -1,4 +1,4 @@
-package com.akash.dayline;
+package com.furthermore.dayline;
 
 import android.app.Notification;
 import android.app.NotificationChannel;

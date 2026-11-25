@@ -19,7 +19,7 @@ An offline day planner for Android with a calm, minimal design.
 Open the latest release on this repo from your phone, download **Dayline.apk**, and open it. A new APK installs over the old one and keeps your tasks.
 
 ## How builds work
-Every push to `main` runs `.github/workflows/build.yml`, which builds a signed APK and attaches it to a new release.
+Every push to `main` runs `.github/workflows/build.yml`, which builds a signed APK (for installing directly) and a signed AAB (for uploading to Google Play) and attaches both to a new release. Runs on other branches build the files as workflow artifacts without making a release.
 
 ## Where things live
 - `app/src/main/assets/index.html` - all screens (HTML/CSS/JS). Tasks are saved on the phone.
@@ -29,4 +29,4 @@ Every push to `main` runs `.github/workflows/build.yml`, which builds a signed A
 
 Font: Figtree (SIL Open Font License), bundled from Fontsource.
 
-Crafted by Akash Pawar.
+Crafted by FurtherMore.

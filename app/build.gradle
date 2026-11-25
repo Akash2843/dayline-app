@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace 'com.akash.dayline'
-    compileSdk 34
+    namespace 'com.furthermore.dayline'
+    compileSdk 36
 
     defaultConfig {
-        applicationId 'com.akash.dayline'
+        applicationId 'com.furthermore.dayline'
         minSdk 26
-        targetSdk 34
+        targetSdk 36
         // Each GitHub build gets a higher number, so new APKs install over old ones.
         versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1')
         versionName "2.0." + (System.getenv("GITHUB_RUN_NUMBER") ?: "1")

@@ -1,4 +1,4 @@
-package com.akash.dayline;
+package com.furthermore.dayline;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,12 +9,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+import android.window.OnBackInvokedCallback;
+import android.window.OnBackInvokedDispatcher;
 
 import org.json.JSONObject;
 
@@ -33,7 +37,9 @@ public class MainActivity extends Activity {
     private static WeakReference<MainActivity> current = new WeakReference<>(null);
 
     private WebView web;
+    private FrameLayout root;
     private String pendingExport;
+    private OnBackInvokedCallback backCallback;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -42,6 +48,9 @@ public class MainActivity extends Activity {
         current = new WeakReference<>(this);
 
         web = new WebView(this);
+        root = new FrameLayout(this);
+        root.addView(web, new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         applyBars(isSystemDark());
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
@@ -62,7 +71,9 @@ public class MainActivity extends Activity {
         });
         web.addJavascriptInterface(new Bridge(this, web), "AndroidApp");
         web.loadUrl("file:///android_asset/index.html");
-        setContentView(web);
+        setContentView(root);
+        fitInsideSystemBars();
+        registerBackCallback();
 
         Notifier.ensureChannels(this);
         if (Build.VERSION.SDK_INT >= 33
@@ -72,8 +83,34 @@ public class MainActivity extends Activity {
         ReminderScheduler.schedule(this);
     }
 
+    /**
+     * Android 15+ draws apps edge to edge for targetSdk 35+, so the screen would sit
+     * under the status bar, navigation bar and keyboard. Pad the content by those
+     * areas to keep the same layout as before.
+     */
+    private void fitInsideSystemBars() {
+        if (Build.VERSION.SDK_INT < 35) return;
+        root.setOnApplyWindowInsetsListener((v, insets) -> {
+            android.graphics.Insets bars = insets.getInsets(WindowInsets.Type.systemBars()
+                    | WindowInsets.Type.displayCutout() | WindowInsets.Type.ime());
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+            return WindowInsets.CONSUMED;
+        });
+    }
+
+    /** Android 13+ back handling; required on Android 16 where onBackPressed is no longer called. */
+    private void registerBackCallback() {
+        if (Build.VERSION.SDK_INT < 33) return;
+        backCallback = this::handleBack;
+        getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT, backCallback);
+    }
+
     @Override
     protected void onDestroy() {
+        if (Build.VERSION.SDK_INT >= 33 && backCallback != null) {
+            getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(backCallback);
+        }
         if (current.get() == this) current.clear();
         super.onDestroy();
     }
@@ -101,6 +138,7 @@ public class MainActivity extends Activity {
         getWindow().setStatusBarColor(bg);
         getWindow().setNavigationBarColor(nav);
         if (web != null) web.setBackgroundColor(bg);
+        if (root != null) root.setBackgroundColor(bg);
         if (Build.VERSION.SDK_INT >= 30) {
             WindowInsetsController c = getWindow().getInsetsController();
             if (c != null) {
@@ -202,9 +240,14 @@ public class MainActivity extends Activity {
         js("window.__dayResume && window.__dayResume()");
     }
 
+    /** Used on Android 12 and lower; newer versions go through registerBackCallback(). */
     @SuppressWarnings("deprecation")
     @Override
     public void onBackPressed() {
+        handleBack();
+    }
+
+    private void handleBack() {
         if (web == null) {
             finish();
             return;
