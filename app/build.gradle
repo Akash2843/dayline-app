@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.furthermore.dayline'
+    namespace 'com.susumulabs.dayline'
     compileSdk 36
 
     defaultConfig {
-        applicationId 'com.furthermore.dayline'
+        applicationId 'com.susumulabs.dayline'
         minSdk 26
         targetSdk 36
         // Each GitHub build gets a higher number, so new APKs install over old ones.
@@ -15,20 +15,27 @@ android {
         versionName "2.0." + (System.getenv("GITHUB_RUN_NUMBER") ?: "1")
     }
 
+    // The upload key is stored encrypted as upload.jks.enc. The GitHub workflow unlocks it
+    // with the DAYLINE_SIGNING_PASSWORD repository secret; the password is never in the repo.
+    def signingPassword = System.getenv('DAYLINE_SIGNING_PASSWORD')
+    def uploadKey = file('upload.jks')
+
     signingConfigs {
         release {
-            storeFile file('dayline.jks')
-            storeType 'jks'
-            storePassword 'dayline-pass'
-            keyAlias 'dayline'
-            keyPassword 'dayline-pass'
+            storeFile uploadKey
+            storeType 'pkcs12'
+            storePassword signingPassword
+            keyAlias 'upload'
+            keyPassword signingPassword
         }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
+            if (uploadKey.exists() && signingPassword) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.furthermore.dayline;
+package com.susumulabs.dayline;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -35,12 +35,12 @@ public final class ReminderScheduler {
     static final String KEY_SUMMARY_ON = "summary_on";
     static final String KEY_SUMMARY_TIME = "summary_time";
 
-    static final String ACTION_REMIND = "com.furthermore.dayline.REMIND";
-    static final String ACTION_REFRESH = "com.furthermore.dayline.REFRESH";
-    static final String ACTION_TEST = "com.furthermore.dayline.TEST";
-    static final String ACTION_DONE = "com.furthermore.dayline.DONE";
-    static final String ACTION_SNOOZE = "com.furthermore.dayline.SNOOZE";
-    static final String ACTION_SUMMARY = "com.furthermore.dayline.SUMMARY";
+    static final String ACTION_REMIND = "com.susumulabs.dayline.REMIND";
+    static final String ACTION_REFRESH = "com.susumulabs.dayline.REFRESH";
+    static final String ACTION_TEST = "com.susumulabs.dayline.TEST";
+    static final String ACTION_DONE = "com.susumulabs.dayline.DONE";
+    static final String ACTION_SNOOZE = "com.susumulabs.dayline.SNOOZE";
+    static final String ACTION_SUMMARY = "com.susumulabs.dayline.SUMMARY";
 
     private static final int MAX_ALARMS = 60;
     private static final int LOOKAHEAD_DAYS = 3;

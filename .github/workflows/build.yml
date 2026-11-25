@@ -23,8 +23,24 @@ jobs:
         with:
           gradle-version: '8.13'
 
+      - name: Unlock signing key
+        env:
+          DAYLINE_SIGNING_PASSWORD: ${{ secrets.DAYLINE_SIGNING_PASSWORD }}
+        run: |
+          if [ -z "$DAYLINE_SIGNING_PASSWORD" ]; then
+            echo "::error::Add the DAYLINE_SIGNING_PASSWORD repository secret (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in app/upload.jks.enc -out app/upload.jks -pass env:DAYLINE_SIGNING_PASSWORD
+
       - name: Build signed APK and Play Store bundle
+        env:
+          DAYLINE_SIGNING_PASSWORD: ${{ secrets.DAYLINE_SIGNING_PASSWORD }}
         run: gradle :app:assembleRelease :app:bundleRelease --no-daemon --stacktrace
+
+      - name: Remove unlocked key
+        if: always()
+        run: rm -f app/upload.jks
 
       - name: Name the files
         run: |
