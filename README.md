@@ -21,6 +21,8 @@ Open the latest release on this repo from your phone, download **Dayline.apk**, 
 ## How builds work
 Every push to `main` runs `.github/workflows/build.yml`, which builds a signed APK (for installing directly) and a signed AAB (for uploading to Google Play) and attaches both to a new release. Runs on other branches build the files as workflow artifacts without making a release.
 
+Signing: the Play upload key is stored encrypted as `app/upload.jks.enc`. The workflow unlocks it with the `DAYLINE_SIGNING_PASSWORD` repository secret. Keep that password safe; without it, new builds can't be signed.
+
 ## Where things live
 - `app/src/main/assets/index.html` - all screens (HTML/CSS/JS). Tasks are saved on the phone.
 - `ReminderScheduler.java` - exact alarms for the next 3 days, snooze, morning summary.
